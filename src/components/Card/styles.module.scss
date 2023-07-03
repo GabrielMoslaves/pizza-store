@@ -1,15 +1,17 @@
 .container {
-  background-color: red;
   display: flex;
   width: 256px;
-  height: 275px;
+  min-height: 275px;
   border-radius: 25px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #eed7d2;
+  background-color: #fcc9be59;
   text-align: center;
   h1 {
     margin: 15px;
+  }
+  p {
+    max-width: 180px;
   }
 }
