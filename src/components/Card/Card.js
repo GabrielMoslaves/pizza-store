@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import Button from "../Button/Button";
 
 const Card = (props) => {
-  const { name, description, price, image, product, setSelected } = props;
+  const { name, description, price, image, product, setSelect } = props;
 
   return (
     <div className={styles.container}>
@@ -13,7 +13,7 @@ const Card = (props) => {
       <h1>R${price}</h1>
       <Button
         text="Comprar agora"
-        onClick={() => setSelected((prevState) => [...prevState, product])}
+        onClick={() => setSelect((prevState) => [...prevState, product])}
       />
     </div>
   );
