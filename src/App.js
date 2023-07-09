@@ -1,13 +1,16 @@
 import "./App.css";
 import Home from "./Pages/Home/Home";
+import { OpenModalContextProvider } from "./context/openModal";
 import { SelectorContextProvider } from "./context/selector";
 
 function App() {
   return (
     <SelectorContextProvider>
-      <div className="App">
-        <Home />
-      </div>
+      <OpenModalContextProvider >
+        <div className="App">
+          <Home />
+        </div>
+      </OpenModalContextProvider>
     </SelectorContextProvider>
   );
 }

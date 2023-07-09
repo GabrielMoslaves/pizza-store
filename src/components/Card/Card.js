@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import Button from "../Button/Button";
+import { toast } from "react-hot-toast";
 
 const Card = (props) => {
   const { name, description, price, image, product, setSelect } = props;
@@ -13,7 +14,20 @@ const Card = (props) => {
       <h1>R${price}</h1>
       <Button
         text="Comprar agora"
-        onClick={() => setSelect((prevState) => [...prevState, product])}
+        onClick={() => {
+          toast.promise(
+            new Promise((resolve) => {
+              setTimeout(() => {
+                resolve();
+              }, 500);
+            }),
+            {
+              loading: "Adicionando ao carrinho...",
+              success: <b>Adicionado!</b>,
+            }
+          );
+          setSelect((prevState) => [...prevState, product]);
+        }}
       />
     </div>
   );
