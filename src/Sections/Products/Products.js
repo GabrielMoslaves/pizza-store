@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { useSelector } from "../../hooks/useSelector";
 
 const Products = () => {
-  const { select, setSelect } = useSelector();
+  const { selectedProducts, setSelectedProducts } = useSelector();
 
   const products = [
     {
@@ -13,6 +13,7 @@ const Products = () => {
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: 23,
       image: "./pizza1.png",
+      qtd: 1,
     },
     {
       id: 2,
@@ -20,6 +21,7 @@ const Products = () => {
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: 23,
       image: "./pizza2.png",
+      qtd: 1,
     },
     {
       id: 3,
@@ -27,6 +29,7 @@ const Products = () => {
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: 23,
       image: "./pizza3.png",
+      qtd: 1,
     },
     {
       id: 4,
@@ -34,17 +37,20 @@ const Products = () => {
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: 23,
       image: "./pizza4.png",
+      qtd: 1,
     },
   ];
 
-  console.log({ select });
+  console.log({selectedProducts})
+  
   return (
     <div className={styles.container}>
       <h1>Mais vendidas</h1>
       <div className={styles.content}>
         {products.map((item) => (
           <Card
-            setSelect={setSelect}
+            selectedProducts={selectedProducts}
+            setSelectedProducts={setSelectedProducts}
             key={item.id}
             name={item.name}
             description={item.description}
