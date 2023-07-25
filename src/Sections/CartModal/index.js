@@ -5,21 +5,16 @@ import Button from "../../components/Button/Button";
 import Swal from "sweetalert2";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import {
-  Box,
-  FormControl,
-  Input,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
+import { FormControl, InputLabel, TextField } from "@mui/material";
 import { useState } from "react";
+import EmptyState from "../../components/EmptyState";
 
 const CartModal = () => {
   const { setOpenModal } = useOpener();
   const { selectedProducts, setSelectedProducts } = useSelector();
   const [paymentForm, setPaymentForm] = useState("");
+  const [change, setChange] = useState(0);
+  const [needChange, setNeedChange] = useState(false);
 
   const handleOutsideClick = (event) => {
     if (event.target === event.currentTarget) {
@@ -81,10 +76,25 @@ const CartModal = () => {
         return i;
       }
     });
-
     setSelectedProducts(newArray);
   };
 
+  const handleChange = (event) => {
+    setPaymentForm(event.target.value);
+  };
+
+  const handleChangeObservations = (item, event) => {
+    const newArray = selectedProducts.map((i) => {
+      if (i.id === item.id) {
+        return { ...i, observation: event.target.value };
+      } else {
+        return i;
+      }
+    });
+    setSelectedProducts(newArray);
+  };
+
+  console.log({ selectedProducts });
   const handleSubmit = () => {
     if (needChange && change < totalPrice) {
       Swal.fire({
@@ -92,10 +102,15 @@ const CartModal = () => {
         title: "Ops...",
         text: "Valor do troco inferior ao total do pedido!",
       });
+    } else if (!paymentForm) {
+      Swal.fire({
+        icon: "error",
+        title: "Ops...",
+        text: "Selecione uma forma de pagamento",
+      });
     } else {
       Swal.fire({
         title: "Deseja finalizar o pedido?",
-        text: "",
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -117,127 +132,141 @@ const CartModal = () => {
     }
   };
 
-  const handleChange = (event) => {
-    setPaymentForm(event.target.value);
-  };
-  const [change, setChange] = useState(0);
-  const [needChange, setNeedChange] = useState(false);
   return (
     <div className={styles.background} onClick={handleOutsideClick}>
-      <div className={styles.carrinhoContainer}>
-        <h1>Produtos Selecionados</h1>
-        <table className={styles.carrinhoTable}>
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Quantidade</th>
-              <th>Valor</th>
-              <th>Observações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {selectedProducts?.map((item) => {
-              return (
+      <div className={styles.cartContainer}>
+        {selectedProducts.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <>
+            <h1>Produtos Selecionados</h1>
+            <table className={styles.cartTable}>
+              <thead>
                 <tr>
-                  <td>
-                    <div className={styles.nomeProduto}>{item.name}</div>
-                    <img
-                      alt="Pizza"
-                      className={styles.imagemProduto}
-                      src={item.image}
-                    />
-                  </td>
-                  <td>
-                    <div className={styles.quantidade}>
-                      <button
-                        onClick={() => decreaseItem(item)}
-                        className={styles.botaoQuantidade}
-                      >
-                        -
-                      </button>
-                      <span>{item.qtd}</span>
-                      <button
-                        onClick={() => addItem(item)}
-                        className={styles.botaoQuantidade}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </td>
-                  <td>
-                    <span className={styles.valor}>
-                      R$ {(item.qtd * item.price).toFixed(2)}
-                    </span>
-                  </td>
-                  <td>
-                    <TextField
-                      id="standard-multiline-flexible"
-                      multiline
-                      maxRows={4}
-                      variant="standard"
-                      placeholder="Remover cebola, trocar molho, etc..."
-                      onChange={(e) => console.log(e.target.value)}
-                    />
-                  </td>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Valor</th>
+                  <th>Observações</th>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <div className={styles.footer}>
-          <div className={styles.valor}>TOTAL: R$ {totalPrice.toFixed(2)}</div>
-          <div style={{ minWidth: "200px" }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Forma de pagamento
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Forma de pagamento"
-                value={paymentForm}
-                onChange={handleChange}
-              >
-                <MenuItem value="Cartão de crédito">Cartão de crédito</MenuItem>
-                <MenuItem value="Dinheiro">Dinheiro</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          {console.log(needChange)}
-          {paymentForm === "Dinheiro" && (
-            <div style={{ display: "flex", gap: "20px" }}>
-              <p>Precisa de troco?</p>
-              <div style={{ display: "flex", gap: "5px" }}>
-                <input
-                  checked={needChange}
-                  type="radio"
-                  onChange={(e) => setNeedChange(e.target.checked)}
-                />
-                <span>Sim</span>
+              </thead>
+              <tbody className={styles.row}>
+                {selectedProducts?.map((item) => {
+                  return (
+                    <tr>
+                      <td className={styles.productContainer}>
+                        <div className={styles.productName}>{item.name}</div>
+                        <img
+                          alt="Pizza"
+                          className={styles.productImage}
+                          src={item.image}
+                        />
+                      </td>
+                      <td>
+                        <div className={styles.qtd}>
+                          <button
+                            onClick={() => decreaseItem(item)}
+                            className={styles.qtdButton}
+                          >
+                            -
+                          </button>
+                          <span>{item.qtd}</span>
+                          <button
+                            onClick={() => addItem(item)}
+                            className={styles.qtdButton}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        <span className={styles.value}>
+                          R$ {(item.qtd * item.price).toFixed(2)}
+                        </span>
+                      </td>
+                      <td>
+                        <TextField
+                          id="standard-multiline-flexible"
+                          multiline
+                          maxRows={4}
+                          variant="standard"
+                          placeholder="Remover cebola, trocar molho, etc..."
+                          onChange={(e) => handleChangeObservations(item, e)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <div style={{ display: "flex", width: "100%" }}>
+              <div className={styles.footer}>
+                <div className={styles.value}>
+                  TOTAL: R$ {totalPrice.toFixed(2)}
+                </div>
+                <div style={{ minWidth: "200px" }}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Forma de pagamento
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Forma de pagamento"
+                      value={paymentForm}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Cartão de crédito">
+                        Cartão de crédito
+                      </MenuItem>
+                      <MenuItem value="Dinheiro">Dinheiro</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+                {paymentForm === "Dinheiro" && (
+                  <div style={{ display: "flex", gap: "20px" }}>
+                    <p>Precisa de troco?</p>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <input
+                        checked={needChange}
+                        type="radio"
+                        onChange={(e) => setNeedChange(e.target.checked)}
+                      />
+                      <span>Sim</span>
+                    </div>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      <input
+                        checked={!needChange}
+                        type="radio"
+                        onChange={(e) => setNeedChange(!e.target.checked)}
+                      />
+                      <span>Não</span>
+                    </div>
+                  </div>
+                )}
+                {needChange && paymentForm === "Dinheiro" && (
+                  <TextField
+                    onChange={(e) => setChange(e.target.value)}
+                    placeholder="Troco para quanto?"
+                    id="standard-size-small"
+                    size="small"
+                    variant="standard"
+                  />
+                )}
               </div>
-              <div style={{ display: "flex", gap: "5px" }}>
-                <input
-                  checked={!needChange}
-                  type="radio"
-                  onChange={(e) => setNeedChange(!e.target.checked)}
-                />
-                <span>Não</span>
+              <div
+                style={{
+                  paddingTop: "10px",
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "end",
+                  width: "100%",
+                }}
+              >
+                <Button onClick={() => handleSubmit()} text="Finalizar" />
               </div>
             </div>
-          )}
-          {needChange && paymentForm === "Dinheiro" && (
-            <TextField
-              onChange={(e) => setChange(e.target.value)}
-              placeholder="Troco para quanto?"
-              id="standard-size-small"
-              size="small"
-              variant="standard"
-            />
-          )}
-        </div>
-        <div style={{ paddingTop: "10px" }}>
-          <Button onClick={() => handleSubmit()} text="Finalizar" />
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

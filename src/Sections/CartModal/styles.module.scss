@@ -9,77 +9,99 @@
   justify-content: center;
   align-items: center;
 
-  .carrinhoContainer {
-    max-width: 600px;
+  .cartContainer {
+    border-radius: 20px;
+    min-width: 700px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 20px;
-  }
-
-  .carrinhoTable {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .carrinhoTable th,
-  .carrinhoTable td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
-  }
-
-  .carrinhoTable th {
-    font-weight: bold;
-  }
-
-  .nomeProduto {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-
-  .imagemProduto {
-    width: 100px;
-    height: 100px;
-  }
-
-  .quantidade {
-    gap: 10px;
-    display: flex;
+    background-color: #ffffff;
     align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-  }
 
-  .botaoQuantidade {
-    font-size: 16px;
-    padding: 5px 10px;
-    border: none;
-    background-color: #ccc;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
+    h1 {
+      padding-bottom: 10px;
+      text-align: center;
+    }
+    .cartTable {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      overflow: auto;
+      overflow-y: auto;
+      max-height: 100px;
+      overflow-y: scroll;
 
-  .botaoQuantidade:hover {
-    background-color: #aaa;
-  }
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+      }
 
-  .valor {
-    font-size: 16px;
-    font-weight: bold;
-  }
+      tr {
+        border-bottom: 2px solid #e2c1c1;
+      }
 
-  input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+      .productContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .productName {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .productImage {
+        width: 100px;
+        height: 100px;
+      }
+
+      .qtd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .qtdButton {
+          text-align: center;
+          width: 35px;
+          border-radius: 10px;
+          font-weight: bold;
+          font-size: 20px;
+          padding: 5px 10px;
+          border: none;
+          background-color: #ffa200;
+          cursor: pointer;
+          transition: background-color 0.2s;
+          &:hover {
+            background-color: #e97c24;
+          }
+        }
+      }
+    }
+
+    .value {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
   }
   .footer {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     align-items: start;
     padding-top: 30px;
     gap: 20px;
-   }
+  }
 }
