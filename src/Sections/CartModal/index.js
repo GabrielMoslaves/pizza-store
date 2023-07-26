@@ -8,6 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { FormControl, InputLabel, TextField } from "@mui/material";
 import { useState } from "react";
 import EmptyState from "../../components/EmptyState";
+import Box from "../../components/Box";
+import { toast } from "react-hot-toast";
 
 const CartModal = () => {
   const { setOpenModal } = useOpener();
@@ -79,10 +81,6 @@ const CartModal = () => {
     setSelectedProducts(newArray);
   };
 
-  const handleChange = (event) => {
-    setPaymentForm(event.target.value);
-  };
-
   const handleChangeObservations = (item, event) => {
     const newArray = selectedProducts.map((i) => {
       if (i.id === item.id) {
@@ -96,7 +94,9 @@ const CartModal = () => {
 
   console.log({ selectedProducts });
   const handleSubmit = () => {
-    if (needChange && change < totalPrice) {
+    if (selectedProducts.length === 0) {
+      return toast.error("Carrinho vazio!");
+    } else if (needChange && change < totalPrice) {
       Swal.fire({
         icon: "error",
         title: "Ops...",
@@ -135,138 +135,149 @@ const CartModal = () => {
   return (
     <div className={styles.background} onClick={handleOutsideClick}>
       <div className={styles.cartContainer}>
-        {selectedProducts.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <>
-            <h1>Produtos Selecionados</h1>
-            <table className={styles.cartTable}>
-              <thead>
-                <tr>
-                  <th>Produto</th>
-                  <th>Quantidade</th>
-                  <th>Valor</th>
-                  <th>Observações</th>
-                </tr>
-              </thead>
-              <tbody className={styles.row}>
-                {selectedProducts?.map((item) => {
-                  return (
-                    <tr>
-                      <td className={styles.productContainer}>
-                        <div className={styles.productName}>{item.name}</div>
-                        <img
-                          alt="Pizza"
-                          className={styles.productImage}
-                          src={item.image}
-                        />
-                      </td>
-                      <td>
-                        <div className={styles.qtd}>
-                          <button
-                            onClick={() => decreaseItem(item)}
-                            className={styles.qtdButton}
-                          >
-                            -
-                          </button>
-                          <span>{item.qtd}</span>
-                          <button
-                            onClick={() => addItem(item)}
-                            className={styles.qtdButton}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </td>
-                      <td>
-                        <span className={styles.value}>
-                          R$ {(item.qtd * item.price).toFixed(2)}
-                        </span>
-                      </td>
-                      <td>
-                        <TextField
-                          id="standard-multiline-flexible"
-                          multiline
-                          maxRows={4}
-                          variant="standard"
-                          placeholder="Remover cebola, trocar molho, etc..."
-                          onChange={(e) => handleChangeObservations(item, e)}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <div style={{ display: "flex", width: "100%" }}>
-              <div className={styles.footer}>
-                <div className={styles.value}>
-                  TOTAL: R$ {totalPrice.toFixed(2)}
-                </div>
-                <div style={{ minWidth: "200px" }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Forma de pagamento
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Forma de pagamento"
-                      value={paymentForm}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="Cartão de crédito">
-                        Cartão de crédito
-                      </MenuItem>
-                      <MenuItem value="Dinheiro">Dinheiro</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                {paymentForm === "Dinheiro" && (
-                  <div style={{ display: "flex", gap: "20px" }}>
-                    <p>Precisa de troco?</p>
-                    <div style={{ display: "flex", gap: "5px" }}>
-                      <input
-                        checked={needChange}
-                        type="radio"
-                        onChange={(e) => setNeedChange(e.target.checked)}
+        <div className={styles.tableContainer}>
+          <h1>Produtos Selecionados</h1>
+          <table className={styles.cartTable}>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                <th>Observações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedProducts?.map((item) => {
+                return (
+                  <tr>
+                    <td className={styles.productContainer}>
+                      <div className={styles.productName}>{item.name}</div>
+                      <img
+                        alt="Pizza"
+                        className={styles.productImage}
+                        src={item.image}
                       />
-                      <span>Sim</span>
-                    </div>
-                    <div style={{ display: "flex", gap: "5px" }}>
-                      <input
-                        checked={!needChange}
-                        type="radio"
-                        onChange={(e) => setNeedChange(!e.target.checked)}
+                    </td>
+                    <td>
+                      <div className={styles.qtd}>
+                        <button
+                          onClick={() => decreaseItem(item)}
+                          className={styles.qtdButton}
+                        >
+                          -
+                        </button>
+                        <span>{item.qtd}</span>
+                        <button
+                          onClick={() => addItem(item)}
+                          className={styles.qtdButton}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      <span className={styles.value}>
+                        R$ {(item.qtd * item.price).toFixed(2)}
+                      </span>
+                    </td>
+                    <td>
+                      <TextField
+                        id="standard-multiline-flexible"
+                        multiline
+                        maxRows={4}
+                        variant="standard"
+                        placeholder="Remover cebola, trocar molho, etc..."
+                        onChange={(e) => handleChangeObservations(item, e)}
                       />
-                      <span>Não</span>
-                    </div>
-                  </div>
-                )}
-                {needChange && paymentForm === "Dinheiro" && (
-                  <TextField
-                    onChange={(e) => setChange(e.target.value)}
-                    placeholder="Troco para quanto?"
-                    id="standard-size-small"
-                    size="small"
-                    variant="standard"
-                  />
-                )}
-              </div>
-              <div
-                style={{
-                  paddingTop: "10px",
-                  display: "flex",
-                  justifyContent: "end",
-                  alignItems: "end",
-                  width: "100%",
-                }}
-              >
-                <Button onClick={() => handleSubmit()} text="Finalizar" />
-              </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {selectedProducts.length === 0 && (
+            <Box
+              width="100%"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              paddingTop="30px"
+            >
+              <EmptyState />
+            </Box>
+          )}
+        </div>
+
+        <Box display="flex" width="100%">
+          <div className={styles.footer}>
+            <div className={styles.value}>
+              TOTAL: R$ {totalPrice.toFixed(2)}
             </div>
-          </>
-        )}
+            <Box minWidth={200}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Forma de pagamento
+                </InputLabel>
+                <Select
+                  disabled={selectedProducts.length === 0}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Forma de pagamento"
+                  value={paymentForm}
+                  onChange={(event) => setPaymentForm(event.target.value)}
+                >
+                  <MenuItem value="Cartão de crédito">
+                    Cartão de crédito
+                  </MenuItem>
+                  <MenuItem value="Dinheiro">Dinheiro</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            {paymentForm === "Dinheiro" && (
+              <Box display="flex" gap={20}>
+                <p>Precisa de troco?</p>
+                <Box display="flex" gap={5}>
+                  <input
+                    checked={needChange}
+                    type="radio"
+                    onChange={(e) => setNeedChange(e.target.checked)}
+                  />
+                  <span>Sim</span>
+                </Box>
+                <Box display="flex" gap={5}>
+                  <input
+                    checked={!needChange}
+                    type="radio"
+                    onChange={(e) => setNeedChange(!e.target.checked)}
+                  />
+                  <span>Não</span>
+                </Box>
+              </Box>
+            )}
+            {needChange && paymentForm === "Dinheiro" && (
+              <TextField
+                onChange={(e) => setChange(e.target.value)}
+                placeholder="Troco para quanto?"
+                id="standard-size-small"
+                size="small"
+                variant="standard"
+              />
+            )}
+          </div>
+          <Box
+            display="flex"
+            paddingTop={10}
+            justifyContent="end"
+            alignItems="end"
+            width="100%"
+          >
+            <Button
+              // disabled={selectedProducts.length === 0}
+              onClick={() => handleSubmit()}
+              text="Finalizar"
+            />
+          </Box>
+        </Box>
       </div>
     </div>
   );

@@ -12,13 +12,20 @@
   .cartContainer {
     border-radius: 20px;
     min-width: 700px;
+    height: 600px;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff;
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+
+    .tableContainer {
+      max-height: 400px;
+      overflow: auto;
+      width: 100%;
+    }
 
     h1 {
       padding-bottom: 10px;
@@ -28,10 +35,6 @@
       width: 100%;
       border-collapse: collapse;
       background-color: #ffffff;
-      overflow: auto;
-      overflow-y: auto;
-      max-height: 100px;
-      overflow-y: scroll;
 
       th,
       td {
