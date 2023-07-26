@@ -1,7 +1,7 @@
 import React from "react";
-import Card from "../../components/Card/Card";
+import Card from "../../../../components/Card/Card";
 import styles from "./styles.module.scss";
-import { useSelector } from "../../hooks/useSelector";
+import { useSelector } from "../../../../hooks/useSelector";
 
 const Products = () => {
   const { selectedProducts, setSelectedProducts } = useSelector();
