@@ -1,17 +1,14 @@
 import "./App.css";
-import Home from "./Pages/Home/Home";
-import { OpenModalContextProvider } from "./context/openModal";
-import { SelectorContextProvider } from "./context/selector";
+import Providers from "./providers";
+import RoutesWrapper from "./routes";
 
 function App() {
   return (
-    <SelectorContextProvider>
-      <OpenModalContextProvider >
-        <div className="App">
-          <Home />
-        </div>
-      </OpenModalContextProvider>
-    </SelectorContextProvider>
+    <Providers>
+      <div className="App">
+        <RoutesWrapper />
+      </div>
+    </Providers>
   );
 }
 
