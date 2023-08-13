@@ -7,6 +7,7 @@ import About from "../Home/Sections/About/About";
 import CartModal from "../Home/Sections/CartModal";
 import { useOpener } from "../../hooks/useOpener";
 import { Toaster } from "react-hot-toast";
+import Footer from "./Sections/Footer";
 
 const Home = () => {
   const { openModal } = useOpener();
@@ -23,6 +24,7 @@ const Home = () => {
       <Header />
       <Products />
       <About />
+      <Footer />
       {openModal && <CartModal />}
     </>
   );
