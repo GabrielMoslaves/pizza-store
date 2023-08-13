@@ -41,8 +41,6 @@ const Products = () => {
     },
   ];
 
-  console.log({selectedProducts})
-  
   return (
     <div className={styles.container}>
       <h1>Mais vendidas</h1>

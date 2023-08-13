@@ -90,13 +90,6 @@
       font-size: 16px;
       font-weight: bold;
     }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
   }
   .footer {
     width: 100%;
@@ -106,5 +99,41 @@
     align-items: start;
     padding-top: 30px;
     gap: 20px;
+  }
+}
+
+@media screen and (max-width: 737px) {
+  .background {
+    .cartContainer {
+      height: 550px;
+      min-width: fit-content;
+      h1 {
+        font-size: 20px;
+      }
+      .tableContainer {
+        .cartTable {
+          th {
+            padding: 7px;
+          }
+          td {
+            padding: 5px;
+          }
+          .productName {
+            font-size: 15px;
+          }
+          .productImage {
+            width: 50px;
+            height: 50px;
+          }
+          .qtd {
+            justify-content: space-evenly;
+            .qtdButton {
+              width: 20px;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
   }
 }
