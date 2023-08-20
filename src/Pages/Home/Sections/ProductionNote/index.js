@@ -66,7 +66,7 @@ const ProductionNoteModal = ({ openNoteModal, setOpenNoteModal }) => {
             </Box>
           </Box>
 
-          <table>
+          <table style={{ width: "100%" }}>
             <thead>
               <tr>
                 <th>Produto</th>
