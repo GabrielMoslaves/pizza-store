@@ -1,14 +1,16 @@
 import { createContext, useState } from "react";
 
-
-export const OpenModalContext = createContext()
+export const OpenModalContext = createContext();
 
 export const OpenModalContextProvider = ({ children }) => {
-    const [openModal, setOpenModal] = useState(false)
+  const [openCartModal, setOpenCartModal] = useState(false);
+  const [openNoteModal, setOpenNoteModal] = useState(false);
 
-    return (
-        <OpenModalContext.Provider value={{ openModal, setOpenModal }}>
-            {children}
-        </OpenModalContext.Provider>
-    );
+  return (
+    <OpenModalContext.Provider
+      value={{ openCartModal, setOpenCartModal, openNoteModal, setOpenNoteModal }}
+    >
+      {children}
+    </OpenModalContext.Provider>
+  );
 };

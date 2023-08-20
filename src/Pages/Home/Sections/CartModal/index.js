@@ -12,26 +12,24 @@ import Box from "../../../../components/Box";
 import { toast } from "react-hot-toast";
 
 const CartModal = () => {
-  const { setOpenModal } = useOpener();
-  const { selectedProducts, setSelectedProducts } = useSelector();
-  const [paymentForm, setPaymentForm] = useState("");
-  const [change, setChange] = useState(0);
   const [needChange, setNeedChange] = useState(false);
+
+  const { setOpenCartModal, setOpenNoteModal } = useOpener();
+  const {
+    selectedProducts,
+    setSelectedProducts,
+    paymentForm,
+    setPaymentForm,
+    change,
+    setChange,
+    totalPrice,
+  } = useSelector();
 
   const handleOutsideClick = (event) => {
     if (event.target === event.currentTarget) {
-      setOpenModal(false);
+      setOpenCartModal(false);
     }
   };
-
-  const parsedSelectedProducts = selectedProducts.map((item) => {
-    return { ...item, totalItemPrice: item.qtd * item.price };
-  });
-
-  const totalPrice = parsedSelectedProducts.reduce(
-    (accumulator, item) => accumulator + item.totalItemPrice,
-    0
-  );
 
   const decreaseItem = (item) => {
     if (item.qtd > 1) {
@@ -113,9 +111,8 @@ const CartModal = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire("Pedido enviado!", "Dentro de 50 minutos o pedido será entregue.", "success");
-          setOpenModal(false);
-          setSelectedProducts([]);
-          console.log(selectedProducts);
+          setOpenNoteModal(true);
+          setOpenCartModal(false);
         }
       });
     }
@@ -174,7 +171,8 @@ const CartModal = () => {
                       <TextField
                         id="standard-multiline-flexible"
                         multiline
-                        maxRows={4}
+                        inputProps={{ maxLength: 27 }}
+                        maxRows={2}
                         variant="standard"
                         placeholder="Remover cebola, trocar molho, etc..."
                         onChange={(e) => handleChangeObservations(item, e)}

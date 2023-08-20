@@ -2,10 +2,10 @@ import styles from "./styles.module.scss";
 import { useOpener } from "../../hooks/useOpener";
 
 const ShoppingCart = () => {
-  const { setOpenModal } = useOpener();
+  const { setOpenCartModal } = useOpener();
   return (
     <div
-      onClick={() => setOpenModal(true)}
+      onClick={() => setOpenCartModal(true)}
       className={styles.container}
     >
       <img

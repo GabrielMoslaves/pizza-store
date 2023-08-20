@@ -8,14 +8,15 @@ import CartModal from "../Home/Sections/CartModal";
 import { useOpener } from "../../hooks/useOpener";
 import { Toaster } from "react-hot-toast";
 import Footer from "./Sections/Footer";
+import ProductionNoteModal from "./Sections/ProductionNote";
 
 const Home = () => {
-  const { openModal } = useOpener();
+  const { openCartModal, openNoteModal, setOpenNoteModal } = useOpener();
 
   return (
     <>
       <Toaster />
-      {!openModal && (
+      {!openCartModal && !openNoteModal && (
         <div className={styles.shoppingCart}>
           <ShoppingCart />
         </div>
@@ -25,7 +26,13 @@ const Home = () => {
       <Products />
       <About />
       <Footer />
-      {openModal && <CartModal />}
+      {openCartModal && <CartModal />}
+      {openNoteModal && (
+        <ProductionNoteModal
+          openNoteModal={openNoteModal}
+          setOpenNoteModal={setOpenNoteModal}
+        />
+      )}
     </>
   );
 };

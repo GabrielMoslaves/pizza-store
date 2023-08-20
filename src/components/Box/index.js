@@ -10,6 +10,9 @@ const Box = ({
   children,
   maxWidth,
   minWidth,
+  textAlign,
+  marginTop,
+  fontSize,
 }) => {
   return (
     <div
@@ -24,6 +27,9 @@ const Box = ({
         paddingTop,
         maxWidth,
         minWidth,
+        textAlign,
+        marginTop,
+        fontSize,
       }}
     >
       {children}
