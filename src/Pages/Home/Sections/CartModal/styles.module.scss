@@ -1,4 +1,4 @@
-.background {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -103,7 +103,7 @@
 }
 
 @media screen and (max-width: 737px) {
-  .background {
+  .overlay {
     .cartContainer {
       height: 550px;
       min-width: fit-content;

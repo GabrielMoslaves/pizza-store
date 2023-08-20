@@ -120,10 +120,14 @@ const CartModal = () => {
 
   return (
     <div
-      className={styles.background}
+      className={styles.overlay}
       onClick={handleOutsideClick}
+      data-testid="cart-modal-overlay"
     >
-      <div className={styles.cartContainer}>
+      <div
+        className={styles.cartContainer}
+        data-testid="cart-modal-content"
+      >
         <div className={styles.tableContainer}>
           <h1>Produtos Selecionados</h1>
           <table className={styles.cartTable}>
