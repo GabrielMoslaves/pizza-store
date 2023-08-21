@@ -6,8 +6,8 @@ import Providers from "./providers";
 describe("App component", () => {
   it("should render buttons", () => {
     render(<App />);
-    const linkElement = screen.getByText(/Mais vendidas/i);
-    expect(linkElement).toBeInTheDocument();
+    const linkElement = screen.getAllByText(/comprar agora/i);
+    expect(linkElement.length).toBe(4);
   });
 
   it("should render cartIcon", () => {
@@ -25,17 +25,12 @@ describe("App component", () => {
   });
 
   it("should close cartModal", () => {
-    render(
-      <Providers>
-        <CartModal />
-      </Providers>
-    );
+    render(<App />);
+    const button = screen.getByRole("img", { name: /carrinho/i });
+    fireEvent.click(button);
     const modalContent = screen.getByTestId("cart-modal-content");
-
     expect(modalContent).toBeInTheDocument();
-
     fireEvent.click(document.body);
-
     expect(modalContent).not.toBeInTheDocument();
   });
 });
