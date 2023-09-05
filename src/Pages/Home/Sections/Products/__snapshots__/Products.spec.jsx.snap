@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Products/> should match snapshot 1`] = `
+<div
+  class="container"
+>
+  <h1>
+    Mais vendidas
+  </h1>
+  <div
+    class="content"
+  >
+    <div
+      class="container"
+    >
+      <img
+        alt="La Cuma"
+        src="./pizza1.png"
+      />
+      <h3>
+        La Cuma
+      </h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </p>
+      <h1>
+        R$
+        23.99
+      </h1>
+      <button
+        class="container"
+      >
+        Comprar agora
+      </button>
+    </div>
+    <div
+      class="container"
+    >
+      <img
+        alt="La Menta"
+        src="./pizza2.png"
+      />
+      <h3>
+        La Menta
+      </h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </p>
+      <h1>
+        R$
+        23.99
+      </h1>
+      <button
+        class="container"
+      >
+        Comprar agora
+      </button>
+    </div>
+    <div
+      class="container"
+    >
+      <img
+        alt="La Bana"
+        src="./pizza3.png"
+      />
+      <h3>
+        La Bana
+      </h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </p>
+      <h1>
+        R$
+        23.99
+      </h1>
+      <button
+        class="container"
+      >
+        Comprar agora
+      </button>
+    </div>
+    <div
+      class="container"
+    >
+      <img
+        alt="La Toca"
+        src="./pizza4.png"
+      />
+      <h3>
+        La Toca
+      </h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </p>
+      <h1>
+        R$
+        23.99
+      </h1>
+      <button
+        class="container"
+      >
+        Comprar agora
+      </button>
+    </div>
+  </div>
+</div>
+`;

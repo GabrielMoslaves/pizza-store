@@ -4,15 +4,7 @@ import Button from "../Button/Button";
 import { toast } from "react-hot-toast";
 
 const Card = (props) => {
-  const {
-    name,
-    description,
-    price,
-    image,
-    product,
-    setSelectedProducts,
-    selectedProducts,
-  } = props;
+  const { name, description, price, image, product, setSelectedProducts, selectedProducts } = props;
 
   const selectedIds = selectedProducts?.map((item) => item.id);
 
@@ -45,7 +37,10 @@ const Card = (props) => {
   };
   return (
     <div className={styles.container}>
-      <img src={image} alt="pizza" />
+      <img
+        src={image}
+        alt={name}
+      />
       <h3>{name}</h3>
       <p>{description}</p>
       <h1>R${price}</h1>

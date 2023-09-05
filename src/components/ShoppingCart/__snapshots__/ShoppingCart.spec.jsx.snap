@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ShoppingCart/> should match snapshot 1`] = `
+<div
+  class="container"
+>
+  <img
+    alt="carrinho"
+    class="img"
+    src="/carrinho.png"
+  />
+</div>
+`;

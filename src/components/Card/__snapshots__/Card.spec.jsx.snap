@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Card/> should match snapshot 1`] = `
+<div
+  class="container"
+>
+  <img
+    alt="Pizza"
+    src="./pizza1.png"
+  />
+  <h3>
+    Pizza
+  </h3>
+  <p>
+    lorem ipsum dolor
+  </p>
+  <h1>
+    R$
+    30
+  </h1>
+  <button
+    class="container"
+  >
+    Comprar agora
+  </button>
+</div>
+`;

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EmptyState/> should match snapshot 1`] = `
+<div
+  class="container"
+>
+  <h2>
+    Sem produtos no carrinho
+  </h2>
+  <img
+    alt="carrinho-vazio"
+    src="/empty-cart.png"
+    width="200"
+  />
+  <p>
+    Adicione produtos e eles aparecerão aqui :)
+  </p>
+</div>
+`;
