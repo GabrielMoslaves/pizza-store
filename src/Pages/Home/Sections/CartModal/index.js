@@ -140,9 +140,9 @@ const CartModal = () => {
               </tr>
             </thead>
             <tbody>
-              {selectedProducts?.map((item) => {
+              {selectedProducts?.map((item, index) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td className={styles.productContainer}>
                       <div className={styles.productName}>{item.name}</div>
                       <img
