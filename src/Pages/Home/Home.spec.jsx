@@ -146,6 +146,7 @@ describe("<Home/>", () => {
     fireEvent.click(screen.getByRole("button", { name: "-" }));
 
     const removeButton = screen.getByRole("button", { name: "Sim, remova!" });
+
     expect(removeButton).toBeInTheDocument();
 
     fireEvent.click(removeButton);
@@ -161,7 +162,39 @@ describe("<Home/>", () => {
         })
       ).toBeInTheDocument();
     });
+  });
 
-    screen.debug();
+  it("it should finish buy with credicard as payment form", async () => {
+    render(
+      <SelectorContextProvider>
+        <OpenModalContextProvider>
+          <Home />
+        </OpenModalContextProvider>
+      </SelectorContextProvider>
+    );
+
+    const addProductButtons = screen.getAllByRole("button", { name: /comprar agora/i });
+
+    fireEvent.click(addProductButtons[1]);
+
+    const shoppingCart = screen.getByRole("img", { name: /carrinho/i });
+
+    fireEvent.click(shoppingCart);
+
+    const paymentFormSelector = screen.getAllByText("Forma de pagamento");
+
+    await act(async () => {
+      fireEvent.click(paymentFormSelector[0]);
+    });
+
+    expect(screen.getByText(/cartão de crédito/i)).toBeInTheDocument();
+
+    // await act(async () => {
+    //   fireEvent.click(
+    //     screen.getByRole("button", {
+    //       name: /finalizar/i,
+    //     })
+    //   );
+    // });
   });
 });
