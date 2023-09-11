@@ -1,4 +1,11 @@
-import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import Home from "./Home";
 import { OpenModalContextProvider } from "../../context/openModal";
 import { SelectorContextProvider } from "../../context/selector";
@@ -51,7 +58,9 @@ describe("<Home/>", () => {
 
     fireEvent.click(shoppingCart);
 
-    expect(screen.getByRole("heading", { name: /sem produtos no carrinho/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /sem produtos no carrinho/i })
+    ).toBeInTheDocument();
   });
 
   it("should render product cards", () => {
@@ -75,7 +84,11 @@ describe("<Home/>", () => {
       </SelectorContextProvider>
     );
 
-    const addProductButtons = screen.getAllByRole("button", { name: /comprar agora/i });
+    expect.assertions(4);
+
+    const addProductButtons = screen.getAllByRole("button", {
+      name: /comprar agora/i,
+    });
 
     await act(async () => {
       fireEvent.click(addProductButtons[0]);
@@ -104,7 +117,11 @@ describe("<Home/>", () => {
       </SelectorContextProvider>
     );
 
-    const addProductButtons = screen.getAllByRole("button", { name: /comprar agora/i });
+    expect.assertions(4);
+
+    const addProductButtons = screen.getAllByRole("button", {
+      name: /comprar agora/i,
+    });
 
     await act(async () => {
       fireEvent.click(addProductButtons[0]);
@@ -135,7 +152,11 @@ describe("<Home/>", () => {
       </SelectorContextProvider>
     );
 
-    const addProductButtons = screen.getAllByRole("button", { name: /comprar agora/i });
+    expect.assertions(2);
+
+    const addProductButtons = screen.getAllByRole("button", {
+      name: /comprar agora/i,
+    });
 
     fireEvent.click(addProductButtons[1]);
 
@@ -173,34 +194,62 @@ describe("<Home/>", () => {
       </SelectorContextProvider>
     );
 
-    const addProductButtons = screen.getAllByRole("button", { name: /comprar agora/i });
+    expect.assertions(4);
 
-    fireEvent.click(addProductButtons[1]);
+    const user = userEvent.setup();
+
+    const addProductButtons = screen.getAllByRole("button", {
+      name: /comprar agora/i,
+    });
+
+    await act(async () => {
+      await user.click(addProductButtons[1]);
+    });
 
     const shoppingCart = screen.getByRole("img", { name: /carrinho/i });
 
-    fireEvent.click(shoppingCart);
+    await act(async () => {
+      await user.click(shoppingCart);
+    });
 
-    const paymentFormSelector = screen.getByRole("combobox");
+    const paymentFormSelector = screen.getByRole("button", {
+      name: /forma de pagamento ​/i,
+    });
 
     expect(paymentFormSelector).toBeInTheDocument();
 
-    fireEvent.click(paymentFormSelector);
+    await act(async () => {
+      await user.click(paymentFormSelector);
+    });
 
-    fireEvent.click(screen.getByRole("option", { name: /cartão de crédito/i }));
+    await act(async () => {
+      await user.click(
+        screen.getByRole("option", { name: /cartão de crédito/i })
+      );
+    });
 
-    fireEvent.click(
-      screen.getByRole("button", {
-        name: /finalizar/i,
-      })
-    );
+    screen.debug();
 
-    await waitFor(async () => {
-      expect(
-        screen.getByRole("heading", {
-          name: /deseja finalizar o pedido\?/i,
+    await act(async () => {
+      await user.click(
+        screen.getByRole("button", {
+          name: /finalizar/i,
         })
-      ).toBeInTheDocument();
+      );
+    });
+
+    expect(
+      screen.getByRole("heading", {
+        name: /deseja finalizar o pedido\?/i,
+      })
+    ).toBeInTheDocument();
+
+    await act(async () => {
+      await user.click(
+        screen.getByRole("button", {
+          name: /sim!/i,
+        })
+      );
     });
 
     expect(
@@ -209,11 +258,13 @@ describe("<Home/>", () => {
       })
     ).toBeInTheDocument();
 
-    fireEvent.click(
-      screen.getByRole("button", {
-        name: /ok/i,
-      })
-    );
+    await act(async () => {
+      await user.click(
+        screen.getByRole("button", {
+          name: /ok/i,
+        })
+      );
+    });
 
     expect(
       screen.getByRole("heading", {
