@@ -207,20 +207,15 @@ const CartModal = () => {
           <div className={styles.footer}>
             <div className={styles.value}>TOTAL: R$ {totalPrice.toFixed(2)}</div>
             <Box minWidth={200}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Forma de pagamento</InputLabel>
-                <Select
-                  disabled={selectedProducts.length === 0}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Forma de pagamento"
-                  value={paymentForm}
-                  onChange={(event) => setPaymentForm(event.target.value)}
-                >
-                  <MenuItem value="Cartão de crédito">Cartão de crédito</MenuItem>
-                  <MenuItem value="Dinheiro">Dinheiro</MenuItem>
-                </Select>
-              </FormControl>
+              <label>Forma de pagamento</label>
+              <select
+                disabled={selectedProducts.length === 0}
+                value={paymentForm}
+                onChange={(event) => setPaymentForm(event.target.value)}
+              >
+                <option value="Cartão de crédito">Cartão de crédito</option>
+                <option value="Dinheiro">Dinheiro</option>
+              </select>
             </Box>
             {paymentForm === "Dinheiro" && (
               <Box

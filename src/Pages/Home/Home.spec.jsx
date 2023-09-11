@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import Home from "./Home";
 import { OpenModalContextProvider } from "../../context/openModal";
 import { SelectorContextProvider } from "../../context/selector";
@@ -181,20 +181,44 @@ describe("<Home/>", () => {
 
     fireEvent.click(shoppingCart);
 
-    const paymentFormSelector = screen.getAllByText("Forma de pagamento");
+    const paymentFormSelector = screen.getByRole("combobox");
 
-    await act(async () => {
-      fireEvent.click(paymentFormSelector[0]);
+    expect(paymentFormSelector).toBeInTheDocument();
+
+    fireEvent.click(paymentFormSelector);
+
+    fireEvent.click(screen.getByRole("option", { name: /cartão de crédito/i }));
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /finalizar/i,
+      })
+    );
+
+    await waitFor(async () => {
+      expect(
+        screen.getByRole("heading", {
+          name: /deseja finalizar o pedido\?/i,
+        })
+      ).toBeInTheDocument();
     });
 
-    expect(screen.getByText(/cartão de crédito/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /pedido enviado!/i,
+      })
+    ).toBeInTheDocument();
 
-    // await act(async () => {
-    //   fireEvent.click(
-    //     screen.getByRole("button", {
-    //       name: /finalizar/i,
-    //     })
-    //   );
-    // });
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /ok/i,
+      })
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: /guia de produção/i,
+      })
+    ).toBeInTheDocument();
   });
 });
