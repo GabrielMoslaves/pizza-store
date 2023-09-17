@@ -1,11 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import Home from "./Home";
 import { OpenModalContextProvider } from "../../context/openModal";
 import { SelectorContextProvider } from "../../context/selector";
@@ -58,9 +51,7 @@ describe("<Home/>", () => {
 
     fireEvent.click(shoppingCart);
 
-    expect(
-      screen.getByRole("heading", { name: /sem produtos no carrinho/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /sem produtos no carrinho/i })).toBeInTheDocument();
   });
 
   it("should render product cards", () => {
@@ -223,9 +214,7 @@ describe("<Home/>", () => {
     });
 
     await act(async () => {
-      await user.click(
-        screen.getByRole("option", { name: /cartão de crédito/i })
-      );
+      await user.click(screen.getByRole("option", { name: /cartão de crédito/i }));
     });
 
     screen.debug();
@@ -271,5 +260,83 @@ describe("<Home/>", () => {
         name: /guia de produção/i,
       })
     ).toBeInTheDocument();
+  });
+
+  it("should finish buy with money payment form", async () => {
+    render(
+      <SelectorContextProvider>
+        <OpenModalContextProvider>
+          <Home />
+        </OpenModalContextProvider>
+      </SelectorContextProvider>
+    );
+
+    expect.assertions(3);
+
+    const user = userEvent.setup();
+
+    const addProductButtons = screen.getAllByRole("button", {
+      name: /comprar agora/i,
+    });
+
+    await act(async () => {
+      await user.click(addProductButtons[1]);
+    });
+
+    const shoppingCart = screen.getByRole("img", { name: /carrinho/i });
+
+    await act(async () => {
+      await user.click(shoppingCart);
+    });
+
+    const paymentFormSelector = screen.getByRole("button", {
+      name: /forma de pagamento ​/i,
+    });
+
+    expect(paymentFormSelector).toBeInTheDocument();
+
+    await act(async () => {
+      await user.click(paymentFormSelector);
+    });
+
+    await act(async () => {
+      await user.click(screen.getByRole("option", { name: /dinheiro/i }));
+    });
+
+    await act(async () => {
+      await user.click(screen.getByTestId("confirmChange"));
+    });
+
+    expect(screen.getByRole("spinbutton")).toBeInTheDocument();
+
+    await act(async () => {
+      await user.type(screen.getByRole("spinbutton"), "50");
+    });
+
+    await act(async () => {
+      await user.click(
+        screen.getByRole("button", {
+          name: /finalizar/i,
+        })
+      );
+    });
+
+    await act(async () => {
+      await user.click(
+        screen.getByRole("button", {
+          name: /sim!/i,
+        })
+      );
+    });
+
+    await act(async () => {
+      await user.click(
+        screen.getByRole("button", {
+          name: /ok/i,
+        })
+      );
+    });
+
+    expect(screen.getByText(/r\$26\.01/i)).toBeInTheDocument();
   });
 });

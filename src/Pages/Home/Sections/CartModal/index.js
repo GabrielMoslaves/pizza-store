@@ -54,14 +54,8 @@ const CartModal = () => {
         confirmButtonText: "Sim, remova!",
       }).then((result) => {
         if (result.isConfirmed) {
-          setSelectedProducts((prevState) =>
-            prevState.filter((i) => i.id !== item.id)
-          );
-          Swal.fire(
-            "Removido!",
-            "O item foi removido do seu carrinho.",
-            "success"
-          );
+          setSelectedProducts((prevState) => prevState.filter((i) => i.id !== item.id));
+          Swal.fire("Removido!", "O item foi removido do seu carrinho.", "success");
         }
       });
     }
@@ -116,11 +110,7 @@ const CartModal = () => {
         confirmButtonText: "Sim!",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            "Pedido enviado!",
-            "Dentro de 50 minutos o pedido será entregue.",
-            "success"
-          );
+          Swal.fire("Pedido enviado!", "Dentro de 50 minutos o pedido será entregue.", "success");
           setOpenNoteModal(true);
           setOpenCartModal(false);
         }
@@ -134,7 +124,10 @@ const CartModal = () => {
       onClick={handleOutsideClick}
       data-testid="cart-modal-overlay"
     >
-      <div className={styles.cartContainer} data-testid="cart-modal-content">
+      <div
+        className={styles.cartContainer}
+        data-testid="cart-modal-content"
+      >
         <div className={styles.tableContainer}>
           <h1>Produtos Selecionados</h1>
           <table className={styles.cartTable}>
@@ -176,9 +169,7 @@ const CartModal = () => {
                       </div>
                     </td>
                     <td>
-                      <span className={styles.value}>
-                        R$ {(item.qtd * item.price).toFixed(2)}
-                      </span>
+                      <span className={styles.value}>R$ {(item.qtd * item.price).toFixed(2)}</span>
                     </td>
                     <td>
                       <TextField
@@ -209,16 +200,15 @@ const CartModal = () => {
           )}
         </div>
 
-        <Box display="flex" width="100%">
+        <Box
+          display="flex"
+          width="100%"
+        >
           <div className={styles.footer}>
-            <div className={styles.value}>
-              TOTAL: R$ {totalPrice.toFixed(2)}
-            </div>
+            <div className={styles.value}>TOTAL: R$ {totalPrice.toFixed(2)}</div>
             <Box minWidth={200}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Forma de pagamento
-                </InputLabel>
+                <InputLabel id="demo-simple-select-label">Forma de pagamento</InputLabel>
                 <Select
                   disabled={selectedProducts.length === 0}
                   labelId="demo-simple-select-label"
@@ -227,25 +217,35 @@ const CartModal = () => {
                   value={paymentForm}
                   onChange={(event) => setPaymentForm(event.target.value)}
                 >
-                  <MenuItem value="Cartão de crédito">
-                    Cartão de crédito
-                  </MenuItem>
+                  <MenuItem value="Cartão de crédito">Cartão de crédito</MenuItem>
                   <MenuItem value="Dinheiro">Dinheiro</MenuItem>
                 </Select>
               </FormControl>
             </Box>
             {paymentForm === "Dinheiro" && (
-              <Box display="flex" gap={20} alignItems="center">
+              <Box
+                display="flex"
+                gap={20}
+                alignItems="center"
+              >
                 <p>Precisa de troco?</p>
-                <Box display="flex" gap={5}>
+                <Box
+                  display="flex"
+                  gap={5}
+                >
                   <input
+                    data-testid="confirmChange"
                     checked={needChange}
                     type="radio"
                     onChange={(e) => setNeedChange(e.target.checked)}
                   />
                   <span>Sim</span>
                 </Box>
-                <Box display="flex" gap={5} alignItems="center">
+                <Box
+                  display="flex"
+                  gap={5}
+                  alignItems="center"
+                >
                   <input
                     checked={!needChange}
                     type="radio"
@@ -273,7 +273,10 @@ const CartModal = () => {
             alignItems="end"
             width="100%"
           >
-            <Button onClick={() => handleSubmit()} text="Finalizar" />
+            <Button
+              onClick={() => handleSubmit()}
+              text="Finalizar"
+            />
           </Box>
         </Box>
       </div>
